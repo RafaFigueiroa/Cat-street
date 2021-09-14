@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerBehaviour : MonoBehaviour
 {
     public CharacterController controller;
@@ -15,8 +17,6 @@ public class PlayerBehaviour : MonoBehaviour
     Vector3 forward;
     Vector3 right, left;
 
-    ///private bool isMovingRight, isMovingLeft;
-    
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -30,10 +30,11 @@ public class PlayerBehaviour : MonoBehaviour
     public void Movement() {
         //Movimento Contínuo para frente
         forward = Vector3.forward * speed;
-
+        speed += 1 * Time.deltaTime;
+        Debug.Log(speed);
 
         //Pulo e gravidade
-        if (transform.position.y < 0.45f) {
+        if (controller.isGrounded) {
             if (Input.GetKeyDown(KeyCode.Space)) {
                 jumpVelocity = jumpHeight;
             }
@@ -53,32 +54,5 @@ public class PlayerBehaviour : MonoBehaviour
             left = Vector3.left * horizontalSpeed;
             controller.Move(left * Time.deltaTime);
         }
-
-        //if (Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x < 3f && !isMovingRight) {
-        //    isMovingRight = true;
-        //    StartCoroutine(RightMove());
-        //}
-        //if (Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > -3f && !isMovingLeft) {
-        //    isMovingLeft = true;
-        //    StartCoroutine(LeftMove());
-        //}
     }
-
-    //IEnumerator LeftMove() {
-    //    for (float i = 0; i < 10; i += 0.1f) {
-    //        controller.Move(Vector3.left * Time.deltaTime * horizontalSpeed);
-    //        yield return null;
-    //    }
-
-    //    isMovingLeft = false;
-    //}
-
-    //IEnumerator RightMove() {
-    //    for(float i = 0; i < 10; i += 0.1f) {
-    //        controller.Move(Vector3.right * Time.deltaTime * horizontalSpeed);
-    //        yield return null;
-    //    }
-
-    //    isMovingRight = false;
-    //}
 }
